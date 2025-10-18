@@ -1,34 +1,27 @@
-# Sales Data Analytics Preparation Project
+# SQL Data Cleaning Practice Session
 
-## 🎯 Business Objective
-This project takes raw, messy customer order data from a CSV file and transforms it into a clean, standardized, and deduplicated table in a SQL database. The goal is to create a reliable "single source of truth" that is ready for business intelligence (BI) dashboards and sales analysis.
+## 🎯 Objective
+This is a small personal project to practice foundational data cleaning techniques in SQL. The dataset is a 15-row sample (`customer_orders.csv`) with common data quality issues.
 
-## 📊 Dataset & Methodology
-- **Data Source:** A raw CSV file (`customer_orders.csv`) containing transactional data with multiple inconsistencies.
-- **Tools Used:**
-    - **Python (Pandas, SQLAlchemy):** For the initial ETL pipeline (Extracting from CSV, Loading into MySQL).
-    - **MySQL:** For all data transformation, cleaning, and deduplication.
-- **Analysis Approach:**
-    1.  **Load:** Ingested raw data into a `cust_ord` table using a Python script.
-    2.  **Transform:** Wrote a single, comprehensive SQL query using Common Table Expressions (CTEs) to clean all data in one step.
-    3.  **Final Table:** The final query selects only the clean, unique rows into a final view or table.
+The goal was to write a single, clean query to:
+1.  Standardize messy categorical data.
+2.  Convert mixed data types.
+3.  Handle inconsistent date formats.
+4.  Remove duplicate entries.
 
-## 🔍 Key Cleaning & Transformation Steps
-My SQL script performs several key transformations to prepare the data for analysis:
+## 💻 Tools & Process
+- **Tools:** Python (Pandas, SQLAlchemy) to load the CSV, MySQL Workbench for querying.
+- **Process:**
+    1.  Loaded the raw CSV into a MySQL table (`cust_ord`) using a simple Python script.
+    2.  Wrote the `2_clean_and_deduplicate.sql` query using CTEs to build the cleaning logic in steps.
+    3.  The final `SELECT` statement shows the clean, deduplicated output.
 
-- **Standardization (Status):** Grouped inconsistent `order_status` fields (e.g., "Shipped", "ship") into clean categories ("Shipped", "Delivered", "Returned") using `CASE` statements.
-- **Standardization (Country):** Cleaned and grouped country names (e.g., "USA", "united states" -> "USA").
-- **Data Type Conversion:** Converted `quantity` from text (like 'two') to numeric integers using `REGEXP` and `CAST`.
-- **Date/Time Handling:** Parsed multiple date formats (e.g., `YYYY-MM-DD`, `MM/DD/YYYY`) into a single, standard `DATE` format using `COALESCE` and `STR_TO_DATE`.
-- **Feature Engineering:** Extracted the `day_of_week` from the cleaned order date to enable time-based analysis.
-- **Deduplication:** Used the `ROW_NUMBER() OVER(PARTITION BY ...)` window function to identify and remove duplicate customer orders, keeping only the first instance.
+## 🛠 Skills Practiced
+This exercise was a great sandbox for practicing:
+-   **Window Functions:** Using `ROW_NUMBER() OVER(PARTITION BY ...)` to identify duplicates.
+-   **Data Standardization:** Using `CASE` statements to clean `order_status` and `country`.
+-   **Type Conversion:** Using `CAST` and `REGEXP` to convert text quantities (like 'two') to integers.
+-   **Date Handling:** Using `COALESCE` and `STR_TO_DATE` to parse multiple date formats.
+-   **Query Readability:** Using Common Table Expressions (CTEs) to keep the query organized.
 
-## 🛠 Skills & Learnings
-This project demonstrates proficiency in:
-- **Technical Skills:**
-    - Advanced SQL (Window Functions, CTEs, `CASE`, `CAST`, `REGEXP`)
-    - Python (Pandas) for ETL
-    - Database Management (MySQL Workbench)
-- **Learnings:**
-    - Followed a practical tutorial ([Watch me Cleaning Data in minutes with SQL](https://youtu.be/eOlHqTfWi6k)) and applied the concepts to a local environment.
-    - Practiced debugging SQL.
+This was based on a helpful tutorial from Lore So What ([link](https://youtu.be/eOlHqTfWi6k)).
